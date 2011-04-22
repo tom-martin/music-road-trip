@@ -1,0 +1,8 @@
+Degrees of separation experiment with Last.fm similar artists and Spotify tracks
+
+Run like so:
+
+python demo.py 'The Beatles' 'The Hey Chinaskis'
+
+It might take a while. Requires pymongo and a mongodb instance (assumed to be at localhost on local port but can be overridden via demo_config.py)
+

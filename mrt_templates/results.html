@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <ol>
+        {% for artist in route %}
+            <li>{{artist}}</li>
+        {% endfor %}
+        </ol>
+    	<pre>{% for track in tracks %}{{track}}
+{% endfor %}
+    	</pre>
+
+	<p> Search Again</p>
+        <form action="/musictour" method="get">
+            Artist One: <input type="text" value="{{to_artist}}" name="from_artist" /><br />
+            Artist Two: <input type="text" name="to_artist" /></br />
+            <input type="submit" />
+        </form> 
+    </body>
+</html>
+
