@@ -4,7 +4,7 @@ from time import time, sleep
 import logging
 from pymongo import Connection
 from datetime import datetime
-logger = logging.getLogger('mongo_cache')
+logger = logging.getLogger(__name__)
 
 class MongoCache:
     def __init__(self, mongo_host, mongo_port, db_name, collection_name, cache_ttl):

@@ -1,5 +1,18 @@
 # Django settings for mrt_site project.
 
+
+# Celery settings
+
+CELERY_BACKEND = "mongodb"
+BROKER_BACKEND = "mongodb"
+
+BROKER_HOST = "localhost"  # Maps to mongo host.
+BROKER_PORT = 27017         # Maps to mongo port.
+BROKER_VHOST = "celery"         # Maps to database.
+
+import djcelery
+djcelery.setup_loader()
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -116,6 +129,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mrt_app',
+    'djcelery',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

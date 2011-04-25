@@ -1,0 +1,31 @@
+<html>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        var nextCheck = 1000;
+
+        var fromArtist = "{{from_artist}}";
+        var toArtist = "{{to_artist}}";
+
+        function checkReady() {
+            nextCheck = Math.max(60000, 2 * nextCheck)
+            
+            $.ajax({
+              url: 'ready.json',
+              success: function(data) {
+                if(!data['ready']) {
+                    window.setTimeout(checkReady, nextCheck);            
+                } else {
+                    location.reload()
+                }
+              }
+            });
+        }
+
+        $(document).ready(function() {
+            window.setTimeout(checkReady, nextCheck);
+        });
+    </script>
+    <body>
+        <h1>Loading ...</h1><img src="{{STATIC_URL}}img/ajax-loader.gif"/>
+    </body>
+</html>
