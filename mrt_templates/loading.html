@@ -9,15 +9,12 @@
         function checkReady() {
             nextCheck = Math.max(60000, 2 * nextCheck)
             
-            $.ajax({
-              url: 'ready.json',
-              success: function(data) {
+            $.getJSON('ready.json', function(data) {
                 if(!data['ready']) {
                     window.setTimeout(checkReady, nextCheck);            
                 } else {
                     location.reload()
                 }
-              }
             });
         }
 
