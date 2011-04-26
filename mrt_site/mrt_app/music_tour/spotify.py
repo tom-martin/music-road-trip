@@ -8,10 +8,9 @@ logger = logging.getLogger(__name__)
 class SpotifyMetaService:
     def __init__(self, cache, service_lock):
         self.REQUIRED_TERRITORY = "GB"
-        self.MAX_TRACKS = 5
+        self.MAX_TRACKS = 100
         self.lock = service_lock
         self.cache = cache
-
 
     def get_from_cache(self, artist_name):
         cached = self.cache.get(artist_name)
