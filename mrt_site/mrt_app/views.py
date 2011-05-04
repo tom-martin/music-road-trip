@@ -22,13 +22,20 @@ def results_redirect(request):
     return HttpResponseRedirect(reverse('mrt_app.views.results', args=(request.GET['from_artist'], request.GET['to_artist'])))
     
 def results(request, from_artist, to_artist):
-    route = results_service.get(from_artist, to_artist)
+
+    from_artist = music_tour.search_for_artist(from_artist)
+    to_artist = music_tour.search_for_artist(to_artist)
+
+    if len(from_artist['matching_tracks']) == 0 or len(to_artist['matching_tracks']) == 0:
+        return render_to_response('mrt_templates/did_you_mean.html', {'from_artist': from_artist, 'to_artist': to_artist})
+
+    route = results_service.get(from_artist['artist_name'], to_artist['artist_name'])
     if route != None:
         tracks = music_tour.get_random_tracks_for_route(route)
-        return render_to_response('mrt_templates/results.html', {'route': route, 'tracks': tracks, 'from_artist': from_artist, 'to_artist': to_artist})
+        return render_to_response('mrt_templates/results.html', {'route': route, 'tracks': tracks, 'from_artist': from_artist['artist_name'], 'to_artist': to_artist['artist_name']})
     else:
-        route_result = find_path.delay(from_artist, to_artist)
-        return render_to_response('mrt_templates/loading.html', {'from_artist': from_artist, 'to_artist': to_artist}, context_instance=RequestContext(request))
+        route_result = find_path.delay(from_artist['artist_name'], to_artist['artist_name'])
+        return render_to_response('mrt_templates/loading.html', {'from_artist': from_artist['artist_name'], 'to_artist': to_artist['artist_name']}, context_instance=RequestContext(request))
 
 def ready_json(request, from_artist, to_artist):
     route = results_service.get(from_artist, to_artist)

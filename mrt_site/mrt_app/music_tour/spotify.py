@@ -28,13 +28,12 @@ class SpotifyMetaService:
     def get_tracks(self, artist_name):
 
         artist_name_esc = urllib.quote(artist_name.encode('utf-8'))
-        tracks_cached = self.get_from_cache(artist_name)
+        tracks_cached = self.get_from_cache(artist_name.lower())
 
         if tracks_cached != None:
             return tracks_cached
         else:
-
-            url = 'http://ws.spotify.com/search/1/track?q=' + artist_name_esc
+            url = 'http://ws.spotify.com/search/1/track?q=artist:' + artist_name_esc
             try:
                 self.lock.acquire()
                 logger.debug("Loading " + url)
@@ -53,18 +52,22 @@ class SpotifyMetaService:
         # Fucking namespaces!
         tracks = filter(lambda c: c.tag == '{http://www.spotify.com/ns/music/1}track', tracks)
 
-        matching_tracks = []
+        artist_tracks = {'artist_name': artist_name, 'matching_tracks': [], 'did_you_mean':[]}
         for track in tracks:
             track_artist_name = self.get_artist_name(track)
+
             if track_artist_name != None and track_artist_name.lower() == artist_name.lower() and self.track_available_in_req_territories(track):
-                matching_tracks.append(track.attrib['href'])
+                artist_tracks['matching_tracks'].append({'name': self.get_track_name(track), 'artist_name': track_artist_name,'href': track.attrib['href']})
+                artist_tracks['artist_name'] = track_artist_name
+            elif track_artist_name not in artist_tracks['did_you_mean']:
+                artist_tracks['did_you_mean'].append(track_artist_name)
         
-            if len(matching_tracks) >= self.MAX_TRACKS:
+            if len(artist_tracks['matching_tracks']) >= self.MAX_TRACKS:
                 break
 
-        self.write_to_cache(artist_name, matching_tracks)
+        self.write_to_cache(artist_name.lower(), artist_tracks)
 
-        return matching_tracks
+        return artist_tracks
 
     def track_available_in_req_territories(self, track):
         album = track.find('{http://www.spotify.com/ns/music/1}album') 
@@ -76,10 +79,16 @@ class SpotifyMetaService:
             territories = availability.find('{http://www.spotify.com/ns/music/1}territories')
 
         if territories != None:
-            return territories.text != None and "GB" in territories.text
+            return territories.text != None and "GB" in territories.text or "worldwide" in territories.text
+
+    def get_track_name(self, track):
+        track_name = track.find('{http://www.spotify.com/ns/music/1}name')
+        if track_name != None:
+            return track_name.text.encode('utf-8')
+        return ""
 
     def get_artist_name(self, track):
         track_artist = track.find('{http://www.spotify.com/ns/music/1}artist')
-        if track_artist:
-            return track_artist.find('{http://www.spotify.com/ns/music/1}name').text.encode('utf-8')
+        if track_artist != None:
+            return track_artist.find('{http://www.spotify.com/ns/music/1}name').text
 

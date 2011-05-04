@@ -5,7 +5,17 @@
             <li>{{artist}}</li>
         {% endfor %}
         </ol>
-    	<pre>{% for track in tracks %}{{track}}
+
+        <table border="1">
+{% for track in tracks %}
+            <tr>
+                <td>{{track.artist_name}}</td>
+                <td>{{track.name}}</td>
+            </tr>
+{% endfor %}
+        </table> 
+
+    	<pre>{% for track in tracks %}{{track.href}}
 {% endfor %}
     	</pre>
 

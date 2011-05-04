@@ -17,6 +17,9 @@ class MusicTourService:
         spotify_lock = SimpleMongoServiceLock(mongo_host, mongo_port, 'music_tour', 'spotify_lock', 1, 30)
         self.spotify = SpotifyMetaService(MongoCache(mongo_host, mongo_port, 'music_tour', 'spotify_cache',timedelta(weeks=24)), spotify_lock)
 
+    def search_for_artist(self, artist_name):
+        return self.spotify.get_tracks(artist_name)
+
     def find_path(self, artist_one, artist_two, blacklist):
         logger.debug("Black list" + str(blacklist))
 
@@ -90,10 +93,10 @@ class MusicTourService:
         return route
 
     def find_spotify_path(self, artist_one, artist_two, blacklist):
-        if len(self.spotify.get_tracks(artist_one)) == 0:
+        if len(self.spotify.get_tracks(artist_one)['matching_tracks']) == 0:
             raise Exception("No spotify tracks found for " + artist_one)
 
-        if len(self.spotify.get_tracks(artist_two)) == 0:
+        if len(self.spotify.get_tracks(artist_two)['matching_tracks']) == 0:
             raise Exception("No spotify tracks found for " + artist_two)
 
         # Copy the blacklist so the param needn't be a set
@@ -116,7 +119,7 @@ class MusicTourService:
 
             for artist in route:
                 artist_tracks = self.spotify.get_tracks(artist)
-                if len(artist_tracks) == 0:
+                if len(artist_tracks['matching_tracks']) == 0:
                     route = []
                     logger.debug("Blacklisting " + artist + " (no spotify tracks found) and starting over")
                     tracks = []
@@ -131,7 +134,8 @@ class MusicTourService:
     def get_random_tracks_for_route(self, route):
         tracks = []
         for artist in route:
-            tracks.append(random.choice(self.spotify.get_tracks(artist)))
+            random_track = random.choice(self.spotify.get_tracks(artist)['matching_tracks'])
+            tracks.append(random_track)
 
         return tracks
 
