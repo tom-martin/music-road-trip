@@ -131,11 +131,39 @@ class MusicTourService:
             raise Exception("No path found")
         return route
 
-    def get_random_tracks_for_route(self, route):
+    def get_random_tracks_for_route(self, route, track_count):
         tracks = []
-        for artist in route:
-            random_track = random.choice(self.spotify.get_tracks(artist)['matching_tracks'])
-            tracks.append(random_track)
+        chosen_tracks = {}
+        
+        tracks_per_artist = max(1, track_count / len(route))
 
+        remaining_tracks_req = track_count
+
+        all_artists_tracks = []
+        for artist in route:
+            print artist
+            artist_tracks = self.spotify.get_tracks(artist)
+            all_artists_tracks.append(artist_tracks)
+            chosen_tracks[artist.lower()] = []
+            for i in range(0, min(len(artist_tracks['matching_tracks']), tracks_per_artist)):
+                chosen_tracks[artist.lower()].append(select_random_and_remove(artist_tracks['matching_tracks']))
+                remaining_tracks_req -= 1
+
+        print "random artists: "
+        # Randomly pad out the list if it's not full yet and we haven't run out of available tracks
+        while remaining_tracks_req > 0 and sum(map(lambda at: len(at['matching_tracks']), all_artists_tracks)) > 0:
+            random_artist_tracks = random.choice(all_artists_tracks)['matching_tracks']
+            if remaining_tracks_req > 0 and len(random_artist_tracks) > 0:
+                random_track = select_random_and_remove(random_artist_tracks)
+                chosen_tracks[random_track['artist_name'].lower()].append(random_track)
+                remaining_tracks_req -= 1
+
+        for artist in route:
+            tracks += chosen_tracks[artist.lower()]
         return tracks
+
+def select_random_and_remove(tracks):
+    random_track = random.choice(tracks)
+    tracks.remove(random_track)
+    return random_track
 

@@ -19,9 +19,14 @@ def results_redirect(request):
     if 'from_artist' not in request.GET or 'to_artist' not in request.GET:
         return HttpResponseRedirect(reverse('mrt_app.views.index') + "?error=Please%20specify%20two%20artists")
 
-    return HttpResponseRedirect(reverse('mrt_app.views.results', args=(request.GET['from_artist'], request.GET['to_artist'])))
+    track_count = 10
+    if 'track_count' in request.GET:
+        track_count = request.GET['track_count']
+
+    return HttpResponseRedirect(reverse('mrt_app.views.results', args=(request.GET['from_artist'], request.GET['to_artist'], track_count)))
     
-def results(request, from_artist, to_artist):
+def results(request, from_artist, to_artist, track_count="10"):
+    track_count = min(int(track_count), 100)
 
     from_artist = music_tour.search_for_artist(from_artist)
     to_artist = music_tour.search_for_artist(to_artist)
@@ -31,7 +36,7 @@ def results(request, from_artist, to_artist):
 
     route = results_service.get(from_artist['artist_name'], to_artist['artist_name'])
     if route != None:
-        tracks = music_tour.get_random_tracks_for_route(route)
+        tracks = music_tour.get_random_tracks_for_route(route, track_count)
         return render_to_response('mrt_templates/results.html', {'route': route, 'tracks': tracks, 'from_artist': from_artist['artist_name'], 'to_artist': to_artist['artist_name']})
     else:
         route_result = find_path.delay(from_artist['artist_name'], to_artist['artist_name'])

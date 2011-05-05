@@ -7,7 +7,7 @@
         var toArtist = "{{to_artist}}";
 
         function checkReady() {
-            nextCheck = Math.max(60000, 2 * nextCheck)
+            nextCheck = Math.min(60000, 2 * nextCheck)
             
             $.getJSON('ready.json', function(data) {
                 if(!data['ready']) {
