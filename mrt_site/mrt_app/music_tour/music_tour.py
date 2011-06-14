@@ -141,7 +141,6 @@ class MusicTourService:
 
         all_artists_tracks = []
         for artist in route:
-            print artist
             artist_tracks = self.spotify.get_tracks(artist)
             all_artists_tracks.append(artist_tracks)
             chosen_tracks[artist.lower()] = []
