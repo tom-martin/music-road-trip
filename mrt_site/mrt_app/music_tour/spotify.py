@@ -79,7 +79,7 @@ class SpotifyMetaService:
             territories = availability.find('{http://www.spotify.com/ns/music/1}territories')
 
         if territories != None:
-            return territories.text != None and "GB" in territories.text or "worldwide" in territories.text
+            return territories.text != None and ("GB" in territories.text or "worldwide" in territories.text)
 
     def get_track_name(self, track):
         track_name = track.find('{http://www.spotify.com/ns/music/1}name')
