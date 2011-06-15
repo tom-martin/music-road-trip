@@ -2,6 +2,7 @@ import urllib2
 import urllib
 import logging
 import xml.etree.ElementTree as etree
+from pymongo import ASCENDING
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +25,21 @@ class SpotifyMetaService:
                     'tracks': tracks}
 
         self.cache.put(artist_name, to_cache)
+
+    def get_artist_suggestions(self, prefix):
+        connection = self.cache.create_connection()
+        collection = connection[self.cache.db_name][self.cache.collection_name]
+        cached = collection.find({"cache_key": {"$gte": prefix.lower()}}, sort=[("artist_name", ASCENDING)], limit=100)
+        artists = filter(lambda artist: len(artist['tracks']['matching_tracks']) > 0, cached)
+
+        cached = collection.find({"cache_key": {"$gte": 'the ' + prefix.lower()}}, sort=[("artist_name", ASCENDING)], limit=100)
+        artists.extend(filter(lambda artist: len(artist['tracks']['matching_tracks']) > 0, cached))
+
+        names = (map(lambda artist: artist['tracks']['matching_tracks'][0]['artist_name'], artists))
+        names = filter(lambda name: name.lower().startswith(prefix.lower()) or name.lower().startswith('the ' + prefix.lower()), names)
+
+        unique_names = list(set(names))
+        return sorted(unique_names, key=lambda s: s[4:] if s.lower().startswith('the ') else s)
     
     def get_tracks(self, artist_name):
 

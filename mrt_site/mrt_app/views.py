@@ -46,5 +46,9 @@ def ready_json(request, from_artist, to_artist):
     route = results_service.get(from_artist, to_artist)
     return HttpResponse(json.dumps({'ready': route != None}))
 
+def suggestions_json(request, prefix):
+    suggestions = music_tour.get_artist_suggestions(prefix)
+    return HttpResponse(json.dumps(suggestions))
+
 
 

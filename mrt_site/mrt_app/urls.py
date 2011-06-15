@@ -9,6 +9,7 @@ urlpatterns = patterns('mrt_app.views',
     (r'^$', 'results_redirect'),
     (r'^(?P<from_artist>[^/]+)/to/(?P<to_artist>[^/]+)/(?P<track_count>[\d]+)-tracks/$', 'results'),
     (r'^(?P<from_artist>[^/]+)/to/(?P<to_artist>[^/]+)/$', 'results'),
+    (r'^suggestions/(?P<prefix>[^/]+).json$', 'suggestions_json'),
     (r'^(?P<from_artist>[^/]+)/to/(?P<to_artist>[^/]+)/ready.json$', 'ready_json'),
     (r'^(?P<from_artist>[^/]+)/to/(?P<to_artist>[^/]+)/[\d]+-tracks/ready.json$', 'ready_json')
 
