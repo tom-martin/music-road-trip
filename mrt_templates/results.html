@@ -21,8 +21,8 @@
 
 	<p> Search Again</p>
         <form action="/musictour" method="get">
-            Artist One: <input type="text" value="{{to_artist}}" name="from_artist" /><br />
-            Artist Two: <input type="text" name="to_artist" /></br />
+            Artist One: <input type="text" value="{{to_artist}}" name="from_artist" class="artist"/><br />
+            Artist Two: <input type="text" name="to_artist" class="artist"/></br />
             Number of tracks: <select name="track_count">
                 <option>5</option>
                 <option selected="selected">10</option>
@@ -34,7 +34,15 @@
                 <option>100</option>
             </select>
             <input type="submit" />
-        </form> 
+        </form>
+
+        <script src="{{STATIC_URL}}js/jquery-1.6.1.min.js" type="text/javascript"></script>
+        <script src="{{STATIC_URL}}js/jquery-ui-1.8.13.autocomplete.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+$(function() {
+    $(".artist").autocomplete({"source": "/musictour/suggestions.json"});
+});
+        </script>
     </body>
 </html>
 
