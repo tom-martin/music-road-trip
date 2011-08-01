@@ -1,2 +1,4 @@
 *.pyc
+mrt_site/local_settings.py
+
 
