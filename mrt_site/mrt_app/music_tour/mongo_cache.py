@@ -34,7 +34,7 @@ class MongoCache:
                 return cached
             else:
                 logger.info("Cache expired " + cache_key + ", removing")
-                cache.remove(cached)
+                collection.remove(cached)
         
         connection.disconnect()
         self.miss_count += 1
@@ -43,8 +43,15 @@ class MongoCache:
     def put(self, cache_key, to_cache):
         connection = self.create_connection()
         collection = connection[self.db_name][self.collection_name]
+
+        original = collection.find_one({"cache_key": cache_key})
+
         to_cache['cache_key'] = cache_key
         to_cache['created_date'] = datetime.utcnow()
         collection.insert(to_cache)
+
+        if original != None:
+            collection.remove(original)
+
         connection.disconnect()
         

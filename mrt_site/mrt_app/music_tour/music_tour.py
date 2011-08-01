@@ -10,10 +10,10 @@ from simple_mongo_service_lock import SimpleMongoServiceLock
 logger = logging.getLogger(__name__)
 
 class MusicTourService:
-    def __init__(self, mongo_host, mongo_port):
+    def __init__(self, last_fm_api_key, mongo_host, mongo_port):
 
         last_lock = SimpleMongoServiceLock(mongo_host, mongo_port, 'music_tour', 'last_lock', 1, 30)
-        self.last_fm = LastFmService(MongoCache(mongo_host, mongo_port, 'music_tour', 'last_cache', timedelta(weeks=24)), last_lock)
+        self.last_fm = LastFmService(last_fm_api_key, MongoCache(mongo_host, mongo_port, 'music_tour', 'last_cache', timedelta(weeks=24)), last_lock)
         spotify_lock = SimpleMongoServiceLock(mongo_host, mongo_port, 'music_tour', 'spotify_lock', 1, 30)
         self.spotify = SpotifyMetaService(MongoCache(mongo_host, mongo_port, 'music_tour', 'spotify_cache',timedelta(weeks=24)), spotify_lock)
 
@@ -129,7 +129,12 @@ class MusicTourService:
         if len(route) == 0:
             # TODO exception class
             raise Exception("No path found")
-        return route
+
+        route_with_info = []
+        for artist in route:
+            route_with_info.append(self.last_fm.get_artist_info(artist))
+
+        return route_with_info
 
     def get_random_tracks_for_route(self, route, track_count):
         tracks = []
@@ -141,11 +146,11 @@ class MusicTourService:
 
         all_artists_tracks = []
         for artist in route:
-            artist_tracks = self.spotify.get_tracks(artist)
+            artist_tracks = self.spotify.get_tracks(artist['name'])
             all_artists_tracks.append(artist_tracks)
-            chosen_tracks[artist.lower()] = []
+            chosen_tracks[artist['name'].lower()] = []
             for i in range(0, min(len(artist_tracks['matching_tracks']), tracks_per_artist)):
-                chosen_tracks[artist.lower()].append(select_random_and_remove(artist_tracks['matching_tracks']))
+                chosen_tracks[artist['name'].lower()].append(select_random_and_remove(artist_tracks['matching_tracks']))
                 remaining_tracks_req -= 1
 
         print "random artists: "
@@ -158,7 +163,7 @@ class MusicTourService:
                 remaining_tracks_req -= 1
 
         for artist in route:
-            tracks += chosen_tracks[artist.lower()]
+            tracks += chosen_tracks[artist['name'].lower()]
         return tracks
 
     def get_artist_suggestions(self, prefix):

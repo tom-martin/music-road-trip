@@ -1,0 +1,104 @@
+body {
+    margin-top: 1%;
+}
+
+
+
+ol li {
+    display: inline-block;
+    margin: 5px;
+    color: #000000;
+    text-shadow: 0em -0.1em #FFFFFF;
+    font-size: 60%;
+
+    background-image: url(../images/right_arrow.png);
+    background-color:rgba(255,255,255,0.85);
+    background-position:right bottom;
+    background-repeat: repeat-x;
+    padding: 5px;
+
+    vertical-align: top;
+    height: 16em;
+}
+
+
+ol li div {
+    overflow: hidden;
+    width: 126px;
+}
+
+h2 {
+    padding: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color:rgba(144,144,144,0.75);
+    clear: both;
+}
+
+div#table-container {
+    float:left;
+}
+
+table {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    background-color:rgba(0,0,0,0);
+
+    border-left: solid 1px #a02c2c;
+    border-right: solid 1px #a02c2c;    
+    border-bottom: solid 1em #a02c2c;
+
+    width: 24em;
+}
+
+th {
+    text-align: left;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color:#a02c2c;
+}
+
+tr:nth-child(even) {
+    background-color:rgba(200,200,200,0.85);
+}
+
+td {
+    color: #000000;
+    font-size: 80%;
+    text-shadow: none;
+    font-weight: normal;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color:rgba(255,255,255,0.85);
+}
+
+div.playlist-drag-container {
+    background-repeat: no-repeat;
+    background-image: url(../images/spotify_bg.png);
+    float: right;
+    width: 392px;
+    height: 245px;
+
+    margin-right:3em;
+    margin-bottom: 20px;
+}
+
+div#playlist {
+    opacity: 0;
+    filter:alpha(opacity=0);
+	opacity: 0;
+    -moz-opacity:0;
+    overflow:hidden; 
+    border:0px; 
+    cursor:pointer;
+    z-index:100000;
+
+    width: 392px;
+    height: 245px;
+}
+
+

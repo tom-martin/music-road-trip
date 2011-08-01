@@ -1,51 +1,67 @@
 <html>
     <head>
-        <link rel="stylesheet" href="{{STATIC_URL}}css/main.css" type="text/css" />
+        <title>Road Trip from {{from_artist}} to {{to_artist}}</title>
+        {% include "mrt_templates/css_head.html" %}
+        <link rel="stylesheet" href="{{STATIC_URL}}css/results.css" type="text/css" />
     </head>
     <body>
+        <h1>Music Road Trip</h1>
+        <h2>Road Trip from {{from_artist}} to {{to_artist}}</h2> 
         <ol>
         {% for artist in route %}
-            <li>{{artist}}</li>
+            <li><div class="artist"><img src="{{artist.image}}"/>{{artist.name}}</div></li> 
         {% endfor %}
         </ol>
 
-        <table border="1">
-{% for track in tracks %}
-            <tr>
-                <td>{{track.artist_name}}</td>
-                <td>{{track.name}}</td>
-            </tr>
+        <h2>Playlist</h2> 
+        <div id="table-container">
+            <table>
+                <tr>
+                    <th>Artist</th>
+                    <th>Track Name</th>
+                </tr>
+    {% for track in tracks %}
+                <tr>
+                    <td>{{track.artist_name}}</td>
+                    <td>{{track.name}}</td>
+                </tr>
+    {% endfor %}
+            </table> 
+        </div id="table-container">
+
+        <div class="playlist-drag-container">
+        	<div id="playlist">{% for track in tracks %}{{track.href}}
 {% endfor %}
-        </table> 
+        	</div> 
+        </div>
 
-    	<pre>{% for track in tracks %}{{track.href}}
-{% endfor %}
-    	</pre>
+	<h2> Search Again</h2> 
+        {% include "mrt_templates/search_form.html" with from_value=to_artist%}
 
-	<p> Search Again</p>
-        <form action="/musictour" method="get">
-            Artist One: <input type="text" value="{{to_artist}}" name="from_artist" class="artist"/><br />
-            Artist Two: <input type="text" name="to_artist" class="artist"/></br />
-            Number of tracks: <select name="track_count">
-                <option>5</option>
-                <option selected="selected">10</option>
-                <option>15</option>
-                <option>20</option>
-                <option>25</option>
-                <option>50</option>
-                <option>75</option>
-                <option>100</option>
-            </select>
-            <input type="submit" />
-        </form>
-
-        <script src="{{STATIC_URL}}js/jquery-1.6.1.min.js" type="text/javascript"></script>
-        <script src="{{STATIC_URL}}js/jquery-ui-1.8.13.autocomplete.min.js" type="text/javascript"></script>
-        <script type="text/javascript">
+        {% include "mrt_templates/footer.html" %}
+        <script type="text/javascript"> 
 $(function() {
-    $(".artist").autocomplete({"source": "/musictour/suggestions.json"});
+    $("div.playlist-drag-container").mouseover(function() {
+        $("div.playlist").select();
+
+            var text = document.getElementById("playlist");
+            if ($.browser.msie) {
+                var range = document.body.createTextRange();
+                range.moveToElementText(text);
+                range.select();
+            } else if ($.browser.mozilla || $.browser.opera) {
+                var selection = window.getSelection();
+                var range = document.createRange();
+                range.selectNodeContents(text);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            } else if ($.browser.safari) {
+                var selection = window.getSelection();
+                selection.setBaseAndExtent(text, 0, text, 1);
+            }
+    });
 });
-        </script>
+        </script> 
     </body>
 </html>
 

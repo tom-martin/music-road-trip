@@ -1,0 +1,23 @@
+<form action="/musictour" method="get">
+    <label for="from_artist">Start</label> <input type="text" value="{{from_value|default:""}}" name="from_artist" class="artist" placeholder="Enter the name of a band or artist"/>
+    <label for="to_artist">Destination</label> <input type="text" name="to_artist" class="artist" placeholder="and another band or artist"/></br /> 
+    <label for="track_count" id="track_count_label">Number of tracks</label> <select id="track_count" name="track_count"> 
+        <option>5</option> 
+        <option selected="selected">10</option> 
+        <option>15</option> 
+        <option>20</option> 
+        <option>25</option> 
+        <option>50</option> 
+        <option>75</option> 
+        <option>100</option> 
+    </select> 
+    <input type="submit" value="Head out on tour"/>
+</form> 
+
+<script src="{{STATIC_URL}}js/jquery-1.6.1.min.js" type="text/javascript"></script>
+<script src="{{STATIC_URL}}js/jquery-ui-1.8.13.autocomplete.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+    $(".artist").autocomplete({"source": "/musictour/suggestions.json"});
+});
+</script>

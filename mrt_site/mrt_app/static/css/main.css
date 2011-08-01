@@ -19,3 +19,109 @@ a#ui-active-menuitem {
     color: #FFFFFF;
 }
 
+html {
+    background-image: url(../bg/bg_8.jpg);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20%;
+    max-width: 48em;
+    color: #FFFFFF;
+    font-family: Arial,Sans-Serif;
+    font-size: 120%;
+    font-weight: bold;
+    text-shadow: 0.1em 0.1em #505050;
+}
+
+
+h1 {
+    background-image: url(../images/header.png);
+    background-repeat: no-repeat;
+    height: 85px;
+    text-indent: -2000em;
+    margin-left: 2.5em;
+}
+
+input[type="text"] {
+    border-style:solid;
+    border-width:1px;
+    border-color:#303030;
+    margin: 5px;
+    padding: 5px;
+    width: 16em;
+    font-size: 120%;
+    color: #a02c2c;
+}
+
+/* Color affects the color of the placeholder in firefox*/
+input:-moz-placeholder {
+    color:    #A5A5A5;
+}
+
+label#track_count_label {
+    margin-top: 5px;
+    font-size:70%;
+    font-weight: normal;
+    padding-left: 4em;
+}
+
+select#track_count {
+    margin-top: 5px;
+    border-width: 0px;
+}
+
+input[type="submit"] {
+    float:right;
+    margin-top: 5px;
+    margin-right: 0.34em;
+    padding: 5px;
+    font-size:120%;
+    background-color: #a02c2c;
+    color: #FFFFFF;
+    border-width: 0px;
+}
+
+p.credits {
+    text-shadow: none;
+    font-size: 70%;
+    clear: both;
+    float:right;
+    background-color:rgba(255,255,255,0.65);
+    color:#000000;
+    padding: 3px 3px 5px 3px;
+    margin-top: 10%;
+    margin-right:0.6em;
+    font-weight: normal;
+}
+
+p.credits a {
+    color:#a02c2c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+div.loading {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 11em;
+    background-color:rgba(255,255,255,0.45);
+    margin-bottom: 1em;
+}
+
+/* Centre everything in the div  */
+div.loading * {
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

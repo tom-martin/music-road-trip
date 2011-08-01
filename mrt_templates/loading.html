@@ -1,11 +1,15 @@
-<html>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-    <script type="text/javascript">
+<html> 
+    </head> 
+        <title>Loading Road Trip from {{from_artist}} to {{to_artist}}</title>
+        {% include "mrt_templates/css_head.html" %}
+    </head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script> 
+    <script type="text/javascript"> 
         var nextCheck = 1000;
-
+ 
         var fromArtist = "{{from_artist}}";
         var toArtist = "{{to_artist}}";
-
+ 
         function checkReady() {
             nextCheck = Math.min(60000, 2 * nextCheck)
             
@@ -17,12 +21,18 @@
                 }
             });
         }
-
+ 
         $(document).ready(function() {
             window.setTimeout(checkReady, nextCheck);
         });
-    </script>
-    <body>
-        <h1>Loading ...</h1><img src="{{STATIC_URL}}img/ajax-loader.gif"/>
-    </body>
-</html>
+    </script> 
+    <body> 
+        <h1>Music Road Trip</h1>
+        <div class="loading">
+            <h2>Calculating route ... </h2>
+            <img class="loading" src="{{STATIC_URL}}images/loading.gif"/> 
+        </div>
+        {% include "mrt_templates/footer.html" %}
+    </body> 
+</html> 
+

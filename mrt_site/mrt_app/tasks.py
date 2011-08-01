@@ -1,8 +1,12 @@
 from celery.task import task
 from music_tour.music_tour import MusicTourService
 from results import ResultsService
+import logging
+import local_settings
 
-music_tour = MusicTourService('localhost', 27017)
+logging.basicConfig(level=logging.DEBUG)
+
+music_tour = MusicTourService(local_settings.LAST_FM_API_KEY, 'localhost', 27017)
 results = ResultsService('localhost', 27017, 'music_tour')
 
 @task
