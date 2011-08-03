@@ -7,6 +7,9 @@ ul.ui-autocomplete {
     list-style: none;
     margin: 0px;
     padding: 0px;
+    color: #a02c2c;
+    text-shadow: none;
+    font-weight: normal;
 }
 
 ul.ui-autocomplete li.ui-menu-item a{
@@ -15,8 +18,11 @@ ul.ui-autocomplete li.ui-menu-item a{
 }
 
 a#ui-active-menuitem {
-    background-color: #A0A0A0;
+    background-color: #a02c2c;
     color: #FFFFFF;
+
+    text-shadow: 0.1em 0.1em #505050;
+    font-weight: bold;
 }
 
 html {
