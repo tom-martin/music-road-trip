@@ -3,7 +3,6 @@ import urllib
 import logging
 import xml.etree.ElementTree as etree
 from pymongo import ASCENDING
-import xml.etree.ElementTree as etree
 
 logger = logging.getLogger(__name__)
 
