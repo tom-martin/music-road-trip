@@ -160,5 +160,7 @@ LOGGING = {
     }
 }
 
+SUGGESTION_LIMIT=10
+
 from local_settings import *
 

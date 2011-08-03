@@ -51,7 +51,7 @@ def ready_json(request, from_artist, to_artist):
     return HttpResponse(json.dumps({'ready': route != None}))
 
 def suggestions_json(request):
-    suggestions = music_tour.get_artist_suggestions(request.GET.get('term'))
+    suggestions = music_tour.get_artist_suggestions(request.GET.get('term'), settings.SUGGESTION_LIMIT)
     return HttpResponse(json.dumps(suggestions))
 
 

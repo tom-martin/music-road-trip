@@ -166,8 +166,8 @@ class MusicTourService:
             tracks += chosen_tracks[artist['name'].lower()]
         return tracks
 
-    def get_artist_suggestions(self, prefix):
-        return self.spotify.get_artist_suggestions(prefix)
+    def get_artist_suggestions(self, prefix, limit=None):
+        return self.spotify.get_artist_suggestions(prefix, limit)
 
 def select_random_and_remove(tracks):
     random_track = random.choice(tracks)

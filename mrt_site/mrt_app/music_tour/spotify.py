@@ -27,7 +27,10 @@ class SpotifyMetaService:
 
         self.cache.put(artist_name, to_cache)
 
-    def get_artist_suggestions(self, prefix):
+    def get_artist_suggestions(self, prefix, limit):
+        if limit == None or limit > 100:
+            limit = 100
+        
         connection = self.cache.create_connection()
         collection = connection[self.cache.db_name][self.cache.collection_name]
         cached = collection.find({"cache_key": {"$gte": prefix.lower()}}, sort=[("artist_name", ASCENDING)], limit=100)
@@ -40,7 +43,7 @@ class SpotifyMetaService:
         names = filter(lambda name: name.lower().startswith(prefix.lower()) or name.lower().startswith('the ' + prefix.lower()), names)
 
         unique_names = list(set(names))
-        return sorted(unique_names, key=lambda s: s[4:] if s.lower().startswith('the ') else s)
+        return sorted(unique_names, key=lambda s: s[4:] if s.lower().startswith('the ') else s)[0:limit]
     
     def get_tracks(self, artist_name):
 
