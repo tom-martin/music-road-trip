@@ -12,6 +12,10 @@ ul.ui-autocomplete {
     font-weight: normal;
 }
 
+form#road-trip-form {
+  min-width: 921px;
+}
+
 ul.ui-autocomplete li.ui-menu-item a{
     display: block;
     padding: 5px;
