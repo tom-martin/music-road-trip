@@ -35,6 +35,15 @@
         	</div> 
         </div>
 
+        <div id="dnd-fallback">
+          <a href="#">Drag and drop not working?</a>
+          <div id="cnp-instructions-and-text">
+            <p>Copy the contents of this text box into your clipboard, and then paste into your Spotify play queue:</p>
+            <textarea>{% for track in tracks %}{{track.href}}
+{% endfor %}</textarea>
+          </div>
+        </div>
+
 	<h2> Search Again</h2> 
         {% include "mrt_templates/search_form.html" with from_value=to_artist%}
 
@@ -59,6 +68,12 @@ $(function() {
                 var selection = window.getSelection();
                 selection.setBaseAndExtent(text, 0, text, 1);
             }
+    });
+
+    $("div#cnp-instructions-and-text").hide();
+    $("div#dnd-fallback a").click(function(e) {
+      e.preventDefault();
+      $("div#cnp-instructions-and-text").toggle("slow");
     });
 });
         </script> 

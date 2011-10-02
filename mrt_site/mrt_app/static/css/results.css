@@ -101,4 +101,32 @@ div#playlist {
     height: 245px;
 }
 
+div#dnd-fallback {
+    float:left;
+    margin-left: 21px;
+    margin-bottom: 21px;
+    max-width: 372px;
+    text-shadow: none;
+    font-size: 70%;
+    background-color:rgba(255,255,255,0.65);
+    color:#000000;
+    padding: 3px 3px 5px 3px;
+    font-weight: normal;
+}
 
+div#dnd-fallback a {
+  display: block;
+  color:#a02c2c;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+div#dnd-fallback p {
+  margin-top:5px;
+  margin-bottom:5px;
+}
+
+div#dnd-fallback textarea {
+    width: 372px;
+    height: 100px;
+}
