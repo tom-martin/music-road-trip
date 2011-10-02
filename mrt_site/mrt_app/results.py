@@ -6,10 +6,10 @@ from datetime import timedelta
 logger = logging.getLogger(__name__)
 
 def create_key(artist_one, artist_two):
-    if artist_one <= artist_two:
-        return False, artist_one + "|" + artist_two
+    if artist_one.lower() <= artist_two.lower():
+        return False, artist_one.lower() + "|" + artist_two.lower()
     else:
-        return True, artist_two + "|" + artist_one
+        return True, artist_two.lower() + "|" + artist_one.lower()
 
 class ResultsService:
     def __init__(self, mongo_host, mongo_port, db_name):
@@ -30,7 +30,6 @@ class ResultsService:
         return results
 
     def put(self, artist_one, artist_two, results):
-
         key_reversed, key = create_key(artist_one, artist_two)
         # Copy in case we need to reverse
         results = list(results)
