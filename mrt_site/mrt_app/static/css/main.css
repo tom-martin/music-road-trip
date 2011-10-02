@@ -98,6 +98,7 @@ input[type="submit"] {
     background-color: #a02c2c;
     color: #FFFFFF;
     border-width: 0px;
+    cursor: pointer;
 }
 
 p.credits {

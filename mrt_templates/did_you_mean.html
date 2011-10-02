@@ -1,26 +1,44 @@
 <html>
+    </head>
+        <title>Music Road Trip | Did you mean ... ?</title>
+        {% include "mrt_templates/css_head.html" %}
+        <link rel="stylesheet" href="{{STATIC_URL}}css/did-you-mean.css" type="text/css" />
+    </head>
     <body>
-        <form action="/musictour" method="get">
+        <a href="/"><h1>Music Road Trip</h1></a>
+        <form id="did-you-mean" action="/musictour" method="get">
         <h2>From:</h2>
         {% if not from_artist.matching_tracks %}
+            {% if from_artist.did_you_mean %}
             <p>Could not find any Spotify tracks for {{from_artist.artist_name}}, did you mean:</p>
             {% for did_you_mean in from_artist.did_you_mean %}
-                <input type="radio" name="from_artist" value="{{did_you_mean}}" />{{did_you_mean}}<br />
+                <div class="did-you-mean-radio-checkbox"><input type="radio" name="from_artist" value="{{did_you_mean}}" />{{did_you_mean}}</div>
             {% endfor %}
+            {% else %}
+                <p>Could not find any Spotify tracks for {{from_artist.artist_name}} or any suggestions. Please try again</p>
+                <input type="text" name="from_artist" value="{{from_artist.artist_name}}"/>
+            {% endif %}
         {% else %}
             <input type="text" name="from_artist" value="{{from_artist.artist_name}}"/>
         {% endif %}
         <h2>To:</h2>
         {% if not to_artist.matching_tracks %}
-            <p>Could not find any Spotify tracks for {{to_artist.artist_name}}, did you mean:</p>
-            {% for did_you_mean in to_artist.did_you_mean %}
-                <input type="radio" name="to_artist" value="{{did_you_mean}}" />{{did_you_mean}}<br />
-            {% endfor %}
+            {% if to_artist.did_you_mean %}
+              <p>Could not find any Spotify tracks for {{to_artist.artist_name}}, did you mean:</p>
+              {% for did_you_mean in to_artist.did_you_mean %}
+                  <div class="did-you-mean-radio-checkbox"><input type="radio" name="to_artist" value="{{did_you_mean}}" />{{did_you_mean}}</div>
+              {% endfor %}
+            {% else %}
+                <p>Could not find any Spotify tracks for {{to_artist.artist_name}} or any suggestions. Please try again</p>
+                <input type="text" name="to_artist" value="{{to_artist.artist_name}}"/>
+            {% endif %}
         {% else %}
             <input type="text" name="to_artist" value="{{to_artist.artist_name}}"/>
         {% endif %}
         <input type="submit" />
         </form> 
+
+        {% include "mrt_templates/footer.html" %}
     </body>
 </html>
 

@@ -36,7 +36,7 @@ def results(request, from_artist, to_artist, track_count="10"):
     to_artist = music_tour.search_for_artist(to_artist)
 
     if len(from_artist['matching_tracks']) == 0 or len(to_artist['matching_tracks']) == 0:
-        return render_to_response('mrt_templates/did_you_mean.html', {'from_artist': from_artist, 'to_artist': to_artist})
+        return render_to_response('mrt_templates/did_you_mean.html', {'bg_info': random.choice(bg_info), 'from_artist': from_artist, 'to_artist': to_artist}, context_instance=RequestContext(request))
 
     route = results_service.get(from_artist['artist_name'], to_artist['artist_name'])
     if route != None:

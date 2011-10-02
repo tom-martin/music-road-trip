@@ -1,0 +1,36 @@
+form#did-you-mean {
+    background-color:rgba(255,255,255,0.65);
+    padding: 10px;
+    padding-bottom: 50px;
+    width: 921px;
+}
+
+
+form#did-you-mean {
+
+}
+
+form#did-you-mean h2 {
+    color: #a02c2c;
+    text-shadow: 0.1em 0.1em #505050;
+    font-size: 100%;
+}
+
+form p {
+    color: #000000;
+    text-shadow: none;
+    font-size: 80%;
+    padding: 5px;
+}
+
+div.did-you-mean-radio-checkbox {
+    font-weight: normal;
+    color: #000000;
+    text-shadow: none;
+    font-size: 75%;
+    display: inline-block;
+    overflow: hidden;
+    width: 200px;
+    height: 1em;
+    padding: 5px;
+}
