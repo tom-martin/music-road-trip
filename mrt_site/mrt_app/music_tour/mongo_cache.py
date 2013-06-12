@@ -54,4 +54,12 @@ class MongoCache:
             collection.remove(original)
 
         connection.disconnect()
+
+    def all(self):
+        connection = self.create_connection()
+        collection = connection[self.db_name][self.collection_name]
+
+        results = collection.find()
+        connection.close()
+        return results
         

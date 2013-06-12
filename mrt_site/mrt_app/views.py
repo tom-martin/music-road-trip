@@ -10,6 +10,7 @@ from django.conf import settings
 import json
 import random
 from bg_info import bg_info
+import urllib
 
 
 music_tour = MusicTourService(settings.LAST_FM_API_KEY, 'localhost', 27017)
@@ -53,6 +54,16 @@ def ready_json(request, from_artist, to_artist):
 def suggestions_json(request):
     suggestions = music_tour.get_artist_suggestions(request.GET.get('term'), settings.SUGGESTION_LIMIT)
     return HttpResponse(json.dumps(suggestions))
+
+def sitemap(request):
+    all_results = results_service.all()
+    reg_urls = map(lambda r: request.build_absolute_uri("musictour/"+urllib.quote(r["results"][0]["name"].encode("utf-8")) + "/to/" + urllib.quote(r["results"][-1]["name"].encode("utf-8"))), all_results)
+    all_results.rewind()
+    rev_urls = map(lambda r: request.build_absolute_uri("musictour/"+urllib.quote(r["results"][-1]["name"].encode("utf-8")) + "/to/" + urllib.quote(r["results"][0]["name"].encode("utf-8"))), all_results)
+
+    urls = reg_urls + rev_urls
+    return render_to_response('mrt_templates/sitemap.html', {'urls': urls}, context_instance=RequestContext(request))
+
 
 
 

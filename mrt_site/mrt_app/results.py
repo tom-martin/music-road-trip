@@ -38,6 +38,11 @@ class ResultsService:
             results.reverse()
 
         self.mongo_cache.put(key, {'results': results})
+
+    def all(self):
+        return self.mongo_cache.all()
+
+
     
     
         

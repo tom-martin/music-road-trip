@@ -6,6 +6,7 @@ from django.conf.urls.defaults import patterns, include, url
 
 urlpatterns = patterns('',
     (r'^$', 'mrt_app.views.index'),
+    (r'^sitemap$', 'mrt_app.views.sitemap'),
     (r'^musictour/', include('mrt_app.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
