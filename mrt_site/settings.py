@@ -162,5 +162,12 @@ LOGGING = {
 
 SUGGESTION_LIMIT=10
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'music-road-trip-cache'
+    }
+}
+
 from local_settings import *
 

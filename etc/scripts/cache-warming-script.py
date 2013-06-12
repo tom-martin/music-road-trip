@@ -4,6 +4,11 @@ import xml.etree.ElementTree as etree
 from time import time, sleep
 import json
 
+import sys
+
+base_url = sys.argv[1]
+api_key = sys.argv[2]
+
 def get_artist_names(method='chart.gettopartists'):
 
     page = 1
@@ -12,7 +17,7 @@ def get_artist_names(method='chart.gettopartists'):
     artist_names = []
 
     while page < total_pages:
-        url = 'http://ws.audioscrobbler.com/2.0/?method=' + method + '&api_key=' + 'b25b959554ed76058ac220b7b2e0a026' + '&limit=100&page=' + str(page)
+        url = 'http://ws.audioscrobbler.com/2.0/?method=' + method + '&api_key=' + api_key+ '&limit=100&page=' + str(page)
         print("Loading url " + url)
         result = urllib2.urlopen(url)
 
@@ -34,7 +39,7 @@ def get_artist_names(method='chart.gettopartists'):
     return artist_names
 
 def is_ready(artist_one, artist_two):
-    url = 'http://musicroadtrip.com/musictour/' + urllib.quote(artist_one.encode('utf-8')) + '/to/' + urllib.quote(artist_two.encode('utf-8')) + '/10-tracks/ready.json'
+    url = base_url+'musictour/' + urllib.quote(artist_one.encode('utf-8')) + '/to/' + urllib.quote(artist_two.encode('utf-8')) + '/10-tracks/ready.json'
     print("Loading url " + url)
     result = urllib2.urlopen(url)
 
@@ -44,7 +49,7 @@ def is_ready(artist_one, artist_two):
 
 def request_search(artist_one, artist_two):
     print("Searching for " + artist_one + " to " + artist_two)
-    url = 'http://musicroadtrip.com/musictour/' + urllib.quote(artist_one.encode('utf-8')) + '/to/' + urllib.quote(artist_two.encode('utf-8')) + '/10-tracks/'
+    url = base_url+'musictour/' + urllib.quote(artist_one.encode('utf-8')) + '/to/' + urllib.quote(artist_two.encode('utf-8')) + '/10-tracks/'
     result = urllib2.urlopen(url)
     result.read()
 

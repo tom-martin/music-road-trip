@@ -60,6 +60,6 @@ class MongoCache:
         collection = connection[self.db_name][self.collection_name]
 
         results = collection.find()
-        connection.close()
+        connection.disconnect()
         return results
         
